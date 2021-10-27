@@ -1,73 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
+import { FontAwesome } from '@expo/vector-icons';
 import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import useColorScheme from './hooks/useColorScheme';
+import HomeScreen from './screens/HomeScreen'
+import Colors from './constants/Colors';
 
-export default function App() {
+
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  const colorScheme = useColorScheme();
 
   return (
-    <View style={styles.container}>
-
-        <TouchableOpacity >
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>Grocery List</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity >
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>To Dos</Text>
-          </View>
-        </TouchableOpacity>
-      
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={({ navigation, route }) => ({
+            headerTitle: (props) => <FontAwesome
+            name="heart"
+            size={25}
+            color={Colors[colorScheme].text}
+            style={{ marginRight: 15 }}
+          />,
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E8EAED',
-  },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
-  items: {
-    marginTop: 30,
-  },
-  writeTaskWrapper: {
-    position: 'absolute',
-    bottom: 60,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-    width: 250,
-  },
-  addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-  },
-  addText: {},
-});
+export default App;
